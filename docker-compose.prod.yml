@@ -28,7 +28,7 @@ services:
   webapp:
     container_name: webapp
     build:
-      context: ../webapp
+      context: ./avt-webapp
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -40,10 +40,10 @@ services:
   api:
     container_name: api
     build:
-      context: ./
+      context: ./avt-api
       dockerfile: Dockerfile
     env_file:
-      - ./.env
+      - ./avt-api/.env
     ports:
       - "3030:3030"
     depends_on:
