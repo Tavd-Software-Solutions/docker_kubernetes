@@ -27,9 +27,7 @@ services:
 
   webapp:
     container_name: webapp
-    build:
-      context: ./webapp
-      dockerfile: Dockerfile
+    image: vitoradams/avt-webapp
     ports:
       - "3000:3000"
     networks:
@@ -39,9 +37,7 @@ services:
 
   api:
     container_name: api
-    build:
-      context: ./api
-      dockerfile: Dockerfile
+    image: vitoradams/avt-api
     env_file:
       - ./api/.env
     ports:
