@@ -68,6 +68,7 @@ jobs:
 
       - name: Prepare .env to test
         run: |
+          cd api
           touch .env
           echo PORT=3030 >> .env
           echo SECRET=GSJFDHG827FSDBNGLKWY0R982423TKJGHWS98R7-254 >> .env
@@ -77,11 +78,13 @@ jobs:
 
       - name: Prepare Prisma to test
         run: |
+          cd api
           npx prisma generate --schema ./test/prisma/schema-test.prisma
           npx prisma db push --schema ./test/prisma/schema-test.prisma
 
       - name: Test
         run: |
+          cd api
           yarn test:e2e
   deploy:
     needs: test
@@ -107,6 +110,7 @@ jobs:
 
       - name: Prepare .env to deploy
         run: |
+          cd api
           touch .env
           echo PORT=3030 >> .env
           echo SECRET=GSJFDHG827FSDBNGLKWY0R982423TKJGHWS98R7-254 >> .env
