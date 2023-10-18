@@ -66,7 +66,7 @@ jobs:
       - name: Build Docker image
         run: |
           cd webapp
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_IMAGE }}/avt-webapp:latest ./webapp
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_IMAGE }}/avt-webapp:latest .
         working-directory: ./
 
       - name: Push Docker image
