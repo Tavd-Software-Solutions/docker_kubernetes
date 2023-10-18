@@ -26,6 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd api
           npm install -g yarn
           yarn install
 
@@ -57,6 +58,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd api
           npm install -g yarn
           yarn install
 
@@ -94,6 +96,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd api
           npm install -g yarn
           yarn install
 
