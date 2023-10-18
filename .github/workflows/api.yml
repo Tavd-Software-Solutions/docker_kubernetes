@@ -129,8 +129,8 @@ jobs:
       - name: Build Docker image
         run: |
           cd api
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_IMAGE }}/avt-api:latest ./api
-        working-directory: ./api
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME_IMAGE }}/avt-api:latest .
+        working-directory: ./
 
       - name: Push Docker image
         run: |
