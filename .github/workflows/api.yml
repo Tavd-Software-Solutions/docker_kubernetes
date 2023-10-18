@@ -32,14 +32,17 @@ jobs:
 
       - name: Validate ESlint
         run: |
+          cd api
           yarn lint --fix
 
       - name: Format the code
         run: |
+          cd api
           yarn format
 
       - name: Build
         run: |
+          cd api
           yarn build
   test:
     needs: build
