@@ -42,6 +42,7 @@ jobs:
         run: |
           yarn build
   test:
+    needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -80,6 +81,7 @@ jobs:
         run: |
           yarn test:e2e
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
