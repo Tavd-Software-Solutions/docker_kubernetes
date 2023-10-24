@@ -121,6 +121,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Auth Docker client
+        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 050812282329.dkr.ecr.us-east-1.amazonaws.com
+
       - name: Build Docker image
         run: docker build -t avt-api ./api
 
