@@ -128,4 +128,8 @@ jobs:
         run: docker tag avt-api:latest 050812282329.dkr.ecr.us-east-1.amazonaws.com/avt-api:latest
 
       - name: Push Docker image to AWS
+<<<<<<< HEAD
         run: docker push 050812282329.dkr.ecr.us-east-1.amazonaws.com/avt-api:latest
+=======
+        run: docker push 050812282329.dkr.ecr.us-east-1.amazonaws.com/avt-api:latest
+>>>>>>> 5ebe0f9 (chore: rebase main)
