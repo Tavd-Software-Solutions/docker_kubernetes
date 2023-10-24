@@ -3,10 +3,10 @@ name: ApiPipeline
 on:
   push:
     branches:
-      - main
+      - dockerhub
   pull_request:
     branches:
-      - main
+      - dockerhub
 
 jobs:
   build:
