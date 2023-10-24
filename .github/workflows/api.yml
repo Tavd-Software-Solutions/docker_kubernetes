@@ -109,12 +109,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME_IMAGE }}/avt-api:latest ./api
-        working-directory: ./path/to/dockerfile
+        run: docker build -t avt-api ./api
 
-      - name: Push Docker image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME_IMAGE }}/avt-api:latest
+      - name: Version Docker image
+        run: docker tag avt-api:latest 050812282329.dkr.ecr.us-east-1.amazonaws.com/avt-api:latest
+
+      - name: Push Docker image to AWS
+        run: docker push 050812282329.dkr.ecr.us-east-1.amazonaws.com/avt-api:latest
