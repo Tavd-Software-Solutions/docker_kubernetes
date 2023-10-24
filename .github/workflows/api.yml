@@ -3,10 +3,10 @@ name: ApiPipeline
 on:
   push:
     branches:
-      - main
+      - dockerhub
   pull_request:
     branches:
-      - main
+      - dockerhub
 
 jobs:
   build:
@@ -26,19 +26,23 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd api
           npm install -g yarn
           yarn install
 
       - name: Validate ESlint
         run: |
+          cd api
           yarn lint --fix
 
       - name: Format the code
         run: |
+          cd api
           yarn format
 
       - name: Build
         run: |
+          cd api
           yarn build
   test:
     runs-on: ubuntu-latest
@@ -57,11 +61,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd api
           npm install -g yarn
           yarn install
 
       - name: Prepare .env to test
         run: |
+          cd api
           touch .env
           echo PORT=3030 >> .env
           echo SECRET=GSJFDHG827FSDBNGLKWY0R982423TKJGHWS98R7-254 >> .env
@@ -71,11 +77,13 @@ jobs:
 
       - name: Prepare Prisma to test
         run: |
+          cd api
           npx prisma generate --schema ./test/prisma/schema-test.prisma
           npx prisma db push --schema ./test/prisma/schema-test.prisma
 
       - name: Test
         run: |
+          cd api
           yarn test:e2e
   deploy:
     runs-on: ubuntu-latest
@@ -94,11 +102,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd api
           npm install -g yarn
           yarn install
 
       - name: Prepare .env to deploy
         run: |
+          cd api
           touch .env
           echo PORT=3030 >> .env
           echo SECRET=GSJFDHG827FSDBNGLKWY0R982423TKJGHWS98R7-254 >> .env
