@@ -50,26 +50,23 @@ jobs:
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          aws-access-key-id: ${{ secrets.AWS_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-region: us-east-1
 
-      - name: Install dependencies
-        run: |
-          cd webapp
-          npm install -g yarn
-          yarn install
-      - name: Login to Docker Hub
-        run: |
-          cd webapp
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build Docker image
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ secrets.AWS_REGISTRY }}
+          ECR_REPOSITORY: avt-webapp
+          IMAGE_TAG: avt-webapp
         run: |
-          cd webapp
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME_IMAGE }}/avt-webapp:latest .
-        working-directory: ./
-
-      - name: Push Docker image
-        run: |
-          cd webapp
-          docker push ${{ secrets.DOCKERHUB_USERNAME_IMAGE }}/avt-webapp:latest
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
