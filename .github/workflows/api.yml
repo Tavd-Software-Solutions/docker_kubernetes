@@ -124,9 +124,6 @@ jobs:
 
       - name: Auth AWS
         run: |
-          echo ${{ secrets.AWS_ID }}
-          echo ${{ secrets.AWS_ACCESS_KEY }}
-          echo ${{ secrets.AWS_SESSION_TOKEN }}
           aws configure set aws_access_key_id ${{ secrets.AWS_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_ACCESS_KEY }}
           aws configure set aws_session_token ${{ secrets.AWS_SESSION_TOKEN }}
