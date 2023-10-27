@@ -51,22 +51,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-region: us-east-1
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build, tag, and push image to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: front
-          IMAGE_TAG: avt-webapp
+      - name: Auth AWS
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          aws configure set aws_access_key_id ${{ secrets.AWS_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_ACCESS_KEY }}
+          aws configure set aws_session_token ${{ secrets.AWS_SESSION_TOKEN }}
+
+      - name: Auth Docker client
+        run: aws ecr get-login-password --region us-east-1 | docker login --username ${{ secrets.AWS_USER }} --password-stdin ${{ secrets.AWS_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t avt-webapp ./webapp
+
+      - name: Version Docker image
+        run: docker tag avt-webapp:latest 050812282329.dkr.ecr.us-east-1.amazonaws.com/front:latest
+
+      - name: Push Docker image to AWS
+        run: |
+          docker push 050812282329.dkr.ecr.us-east-1.amazonaws.com/front:latest
