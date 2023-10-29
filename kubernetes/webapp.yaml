@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: front-end
-          image: vitoradams/avt-webapp:latest
+          image: 050812282329.dkr.ecr.us-east-1.amazonaws.com/front:latest
           ports:
             - containerPort: 3000
 ---
