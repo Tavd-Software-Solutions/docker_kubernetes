@@ -13,28 +13,30 @@ spec:
         app: api
     spec:
       containers:
-      - name: api
-        image: 050812282329.dkr.ecr.us-east-1.amazonaws.com/avt-api:latest
-        env:
-        - name: EXAMPLE_ENV_VARIABLE
-          value: "example-value"
-        ports:
-        - containerPort: 3030
-        volumeMounts:
-        - name: api-volume
-          mountPath: /usr/src/app
+        - name: api
+          image: 050812282329.dkr.ecr.us-east-1.amazonaws.com/avt-api:latest
+          env:
+            - name: EXAMPLE_ENV_VARIABLE
+              value: .env
+          ports:
+            - containerPort: 3030
+          volumeMounts:
+            - name: api-volume
+              mountPath: /usr/src/app
       volumes:
-      - name: api-volume
-        hostPath:
-          path: /path/on/host
-          type: Directory
+        - name: api-volume
+          hostPath:
+            path: /path/on/host
+            type: Directory
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: api
 spec:
+  type: LoadBalancer
   ports:
-  - port: 3030
+    - port: 3030
+      targetPort: 3030
   selector:
     app: api
