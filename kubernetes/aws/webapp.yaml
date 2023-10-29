@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp
+  name: front-end
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webapp
+      app: front-end
   template:
     metadata:
       labels:
-        app: webapp
+        app: front-end
     spec:
       containers:
-        - name: webapp
+        - name: front-end
           image: 050812282329.dkr.ecr.us-east-1.amazonaws.com/front:latest
           ports:
             - containerPort: 3000
@@ -21,9 +21,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp
+  name: front-end
 spec:
-  ports:
-    - port: 3000
+  type: LoadBalancer
   selector:
-    app: webapp
+    app: front-end
+  ports:
+    - port: 80
+      targetPort: 3000
