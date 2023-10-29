@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@localhost:5432/avt_db?schema=public"
+  url      = "postgresql://postgres:postgres@192.168.241.48:5432/avt_db?schema=public"
 }
 
 model User {
