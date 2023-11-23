@@ -1,5 +1,5 @@
 resource "aws_route_table" "rt_public" {
-  vpc_id            = aws_vpc.eks_vpc.id
+  vpc_id = aws_vpc.eks_vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
