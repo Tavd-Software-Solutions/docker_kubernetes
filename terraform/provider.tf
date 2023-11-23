@@ -5,9 +5,3 @@ provider "aws" {
   token      = var.token
 }
 
-terraform {
-  backend "s3" {
-    bucket = "backendterraformavt"
-    key    = "state.tfstate"
-  }
-}

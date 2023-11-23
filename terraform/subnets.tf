@@ -4,7 +4,9 @@ resource "aws_subnet" "eks_subnet1" {
   availability_zone       = "${var.region}a"
   map_public_ip_on_launch = true
 
-  tags = local.common_tags
+  tags = {
+    Name = var.vpc_name
+  }
 }
 
 resource "aws_subnet" "eks_subnet2" {
@@ -13,5 +15,7 @@ resource "aws_subnet" "eks_subnet2" {
   availability_zone       = "${var.region}b"
   map_public_ip_on_launch = true
 
-  tags = local.common_tags
+  tags = {
+    Name = var.vpc_name
+  }
 }
