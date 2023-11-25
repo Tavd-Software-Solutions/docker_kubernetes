@@ -1,0 +1,16 @@
+---
+- name: Deploy App
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Log in to ECR
+      command: "aws ecr get-login-password --region {{ AWS_REGION }} | docker login --username AWS --password-stdin {{ ECR_URL }}"
+    - name: Pull Docker image from ECR
+      command: "docker pull {{ ECR_URL }}:latest"
+    - name: Run Docker container
+      docker_container:
+        name: my-app-container
+        image: "{{ ECR_URL }}:latest"
+        state: started
+        restart_policy: always
+        network_mode: host

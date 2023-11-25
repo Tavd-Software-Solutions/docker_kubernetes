@@ -30,15 +30,15 @@ variable "vpc_name" {
 
 variable "access_key" {
   type    = string
-  default = "ASIA25Z6DRENPATP4LXW"
+  default = "ASIA25Z6DRENP75KKDQS"
 }
 
 variable "secret_key" {
   type    = string
-  default = "7p5vOGBHMh94LAHBsH1UOnFD16ndVJPNKDaLKS7/"
+  default = "SO1anSfntjlpvV9+IpFnEsdjkV77We72EdjrTNhZ"
 }
 
 variable "token" {
   type    = string
-  default = "FwoGZXIvYXdzEAgaDDSMUrvbSKwWtj+hFyLDAV7mTXyZuHpM3v+zFCxx0Zvpj18dP2UYl4RtbiQ7NPP8O5Xmzyk5gWtvNBEzOh1zhvzV4yxZlvzb5M6k0TFJ2hyl3xJbNaLcQjYgontC9ER7WWErVd1jH+QVtxBZl6Gad5/4g8NUSf9DuEViAeA0j02GtXbrdH+pAznggbHHrjayyTHlldFNQ89Hkp8uKepiNauns0H52Qpyky+ukajqZbR8+UaH75r2AwuSifzN8xSyZgl8M2bx1S9FYwl6WZdmCnXbmiiiqv+qBjIt2y8hfBE7IgcZPvHmPNGtUJ/vHMesbBl+2Cs/JieJna2Ijdka9tVmXc+4gaxu"
+  default = "FwoGZXIvYXdzECQaDLR7oa+RPtv1XdmiyCLDAW0gTFRqBW9m4TUNzkDoMcOCRbpolqC+sQWxk/k4S+e5jfce4Ox3qoMlajdUFopSI60fp1YILHHlg5qugSdpxOahTZin3/lS7u3LW84yGXvCXcqb9P1GLkVbhJ9lc2tTTVPp0ddJZ4iKeHNGmecNqq8y/pssE9XwORalC2fPeLxgZtcCEMbMuQtJDpAT6unE3Z4eGAYEUFtsxh1HpR7C2BicOwloBnCkH4YvPKig8Ylz4Ya4r7CxWOLKR1hzqr/kQAMUqCi7rIWrBjItByydykCiHYvVxxxeudtMQ3Cta1N9h6Gmi8OnuC+aG7c2mCTg4wjsOCWzR/e+"
 }
