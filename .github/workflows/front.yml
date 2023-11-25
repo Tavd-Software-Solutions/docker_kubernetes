@@ -79,7 +79,7 @@ jobs:
           aws configure set aws_session_token ${{ secrets.AWS_SESSION_TOKEN }}
 
       - name: Auth Docker client
-        run: aws ecr get-login-password --region us-east-1 | docker login --username ${{ secrets.AWS_USER }} --password-stdin ${{ secrets.AWS_PASSWORD }}
+        run: aws ecr get-login-password --region us-east-1 | docker login --username ${{ secrets.AWS_USER }} --password-stdin ${{ env.ECR_URL }}
 
       - name: Build Docker image
         run: docker build -t avt-webapp ./webapp
