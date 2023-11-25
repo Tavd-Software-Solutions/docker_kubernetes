@@ -96,3 +96,15 @@ jobs:
         env:
           AWS_REGION: us-east-1
           ECR_URL: ${{ env.ECR_URL }}
+  destroy:
+    needs: terraform
+    runs-on: ubuntu-latest
+    if: failure() # Executar apenas se a etapa deploy falhar
+    steps:
+      - name: Set up Terraform for Destroy
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Destroy
+        run: |
+          cd terraform
+          terraform destroy -auto-approve
