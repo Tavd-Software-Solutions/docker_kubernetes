@@ -14,6 +14,6 @@ output "ecs_cluster_name" {
   value = aws_ecs_cluster.avt_cluster.name
 }
 
-output "ecr_repository_url" {
+output "ecr_url" {
   value = aws_ecr_repository.front.repository_url
 }
