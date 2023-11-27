@@ -11,6 +11,8 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    outputs:
+      id: terraform
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -22,9 +24,19 @@ jobs:
         run: terraform init
         working-directory: terraform
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      - name: Terraform Validate
+        run: terraform validate
         working-directory: terraform
+
+      - name: Terraform Plan
+        id: terraform_plan
+        run: terraform plan -out=tfplan
+        working-directory: terraform
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+        working-directory: terraform
+
       - name: Set outputs
         run: echo "ECR_URL=$(terraform output -raw ecr_url)" >> $GITHUB_ENV
 

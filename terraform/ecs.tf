@@ -1,13 +1,13 @@
-resource "aws_ecs_cluster" "ecs_cluster" {
-  name = "ecs_lab"
+resource "aws_ecs_cluster" "avt_cluster" {
+  name = "avt_front"
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family = "ecs_lab"
+  family = "avt_front"
   container_definitions = jsonencode([
     {
-      name              = "ecs_lab"
-      image             = "${aws_ecr_repository.ecr_lab.repository_url}:6"
+      name              = "avt_front"
+      image             = "${aws_ecr_repository.front.repository_url}:6"
       cpu               = 1
       memory            = 2048
       memoryReservation = 256
@@ -23,18 +23,18 @@ resource "aws_ecs_task_definition" "task_definition" {
       ]
     }
   ])
-  depends_on = [aws_ecr_repository.ecr_lab]
+  depends_on = [aws_ecr_repository.front]
 }
 
-resource "aws_ecs_service" "ecs_lab" {
-  name            = "ecs_lab"
-  cluster         = aws_ecs_cluster.ecs_cluster.id
+resource "aws_ecs_service" "avt_front" {
+  name            = "avt_front"
+  cluster         = aws_ecs_cluster.avt_cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count   = 2
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.elb_tg_lab.arn
-    container_name   = "ecs_lab"
+    target_group_arn = aws_lb_target_group.elb_tg_lab1.arn
+    container_name   = "avt_front"
     container_port   = 80
   }
 }

@@ -1,4 +1,4 @@
-resource "aws_security_group" "ecs_sg" {
+resource "aws_security_group" "ecs_security_group" {
   vpc_id = aws_vpc.eks_vpc.id
 
   ingress {
