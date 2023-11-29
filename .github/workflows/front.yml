@@ -41,7 +41,9 @@ jobs:
       #   run: echo "ECR_URL=$(terraform output -raw ecr_url)" | tee -a $GITHUB_ENV
 
   build:
+    needs: terraform
     runs-on: ubuntu-latest
+    if: always() # Ex
     strategy:
       matrix:
         node-version: [18]
