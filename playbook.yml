@@ -4,13 +4,13 @@
   gather_facts: false
   tasks:
     - name: Log in to ECR
-      command: "aws ecr get-login-password --region {{ env.AWS_REGION }} | docker login --username AWS --password-stdin {{ ECR_URL }}"
+      command: "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 751212661018.dkr.ecr.us-east-1.amazonaws.com/front"
     - name: Pull Docker image from ECR
-      command: "docker pull {{ ECR_URL }}:latest"
+      command: "docker pull 751212661018.dkr.ecr.us-east-1.amazonaws.com/front:latest"
     - name: Run Docker container
       docker_container:
         name: my-app-container
-        image: "{{ ECR_URL }}:latest"
+        image: "751212661018.dkr.ecr.us-east-1.amazonaws.com/front:latest"
         state: started
         restart_policy: always
         network_mode: host

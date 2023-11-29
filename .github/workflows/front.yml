@@ -107,8 +107,7 @@ jobs:
       - name: Ansible
         run: ansible-playbook playbook.yml
         env:
-          AWS_REGION: us-east-1
-          ECR_URL: ${{ secrets.AWS_REGISTRY }}
+
   destroy:
     needs: terraform
     runs-on: ubuntu-latest
