@@ -1,4 +1,4 @@
-resource "aws_lb" "lb_avt_front" {
+resource "aws_lb" "lb_ecs-lab" {
   name               = "lb-ecs-lab"
   internal           = false
   load_balancer_type = "application"
@@ -19,11 +19,11 @@ resource "aws_lb_target_group" "elb_tg_lab1" {
   target_type = "instance"
   vpc_id      = aws_vpc.eks_vpc.id
 
-  depends_on = [aws_lb.lb_avt_front]
+  depends_on = [aws_lb.lb_ecs-lab]
 }
 
 resource "aws_lb_listener" "elb_lst_lab" {
-  load_balancer_arn = aws_lb.lb_avt_front.arn
+  load_balancer_arn = aws_lb.lb_ecs-lab.arn
   port              = "80"
   protocol          = "HTTP"
 

@@ -38,7 +38,7 @@ jobs:
         working-directory: terraform
 
       - name: Set outputs
-        run: echo "ECR_URL=$(terraform output -raw ecr_url)" >> $GITHUB_ENV
+        run: echo "ECR_URL=$(terraform output -raw ecr_url)" | tee -a $GITHUB_ENV
 
   build:
     needs: terraform
@@ -117,4 +117,4 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve tfplan
