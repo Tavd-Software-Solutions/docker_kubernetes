@@ -37,8 +37,8 @@ jobs:
         run: terraform apply -auto-approve tfplan
         working-directory: terraform
 
-      - name: Set outputs
-        run: echo "ECR_URL=$(terraform output -raw ecr_url)" | tee -a $GITHUB_ENV
+      # - name: Set outputs
+      #   run: echo "ECR_URL=$(terraform output -raw ecr_url)" | tee -a $GITHUB_ENV
 
   build:
     needs: terraform
@@ -91,23 +91,23 @@ jobs:
           aws configure set aws_session_token ${{ secrets.AWS_SESSION_TOKEN }}
 
       - name: Auth Docker client
-        run: aws ecr get-login-password --region us-east-1 | docker login --username ${{ secrets.AWS_USER }} --password-stdin ${{ env.ECR_URL }}
+        run: aws ecr get-login-password --region us-east-1 | docker login --username ${{ secrets.AWS_USER }} --password-stdin ${{ secrets.AWS_REGISTRY }}
 
       - name: Build Docker image
         run: docker build -t avt-webapp ./webapp
 
       - name: Version Docker image
-        run: docker tag avt-webapp:latest ${{ env.ECR_URL }}:latest
+        run: docker tag avt-webapp:latest ${{ secrets.AWS_REGISTRY }}:latest
 
       - name: Push Docker image to AWS
         run: |
-          docker push ${{ env.ECR_URL }}:latest
+          docker push ${{ secrets.AWS_REGISTRY }}:latest
 
       - name: Ansible
         run: ansible-playbook playbook.yml
         env:
           AWS_REGION: us-east-1
-          ECR_URL: ${{ env.ECR_URL }}
+          ECR_URL: ${{ secrets.AWS_REGISTRY }}
   destroy:
     needs: terraform
     runs-on: ubuntu-latest
