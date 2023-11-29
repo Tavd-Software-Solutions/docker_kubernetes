@@ -106,7 +106,6 @@ jobs:
 
       - name: Ansible
         run: ansible-playbook playbook.yml
-        env:
 
   # destroy:
   #   needs: terraform
