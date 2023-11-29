@@ -43,7 +43,6 @@ jobs:
   build:
     needs: terraform
     runs-on: ubuntu-latest
-    if: always() # Ex
     strategy:
       matrix:
         node-version: [18]
@@ -107,13 +106,13 @@ jobs:
       - name: Ansible
         run: ansible-playbook playbook.yml
 
-  # destroy:
-  #   needs: terraform
-  #   runs-on: ubuntu-latest
-  #   if: failure() # Executar apenas se a etapa deploy falhar
-  #   steps:
-  #     - name: Set up Terraform for Destroy
-  #       uses: hashicorp/setup-terraform@v1
+  destroy:
+    needs: terraform
+    runs-on: ubuntu-latest
+    if: failure() # Executar apenas se a etapa deploy falhar
+    steps:
+      - name: Set up Terraform for Destroy
+        uses: hashicorp/setup-terraform@v1
 
-  #     - name: Terraform Destroy
-  #       run: terraform destroy -auto-approve
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
