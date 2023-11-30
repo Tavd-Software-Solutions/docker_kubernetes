@@ -13,3 +13,7 @@ output "subnet2_id" {
 output "ecr_url" {
   value = aws_ecr_repository.front.repository_url
 }
+
+output "public_ip" {
+  value = aws_instance.avt.public_ip
+}
