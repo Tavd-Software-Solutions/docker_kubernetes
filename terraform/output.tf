@@ -10,10 +10,6 @@ output "subnet2_id" {
   value = aws_subnet.eks_subnet2.id
 }
 
-output "ecs_cluster_name" {
-  value = aws_ecs_cluster.avt_cluster.name
-}
-
 output "ecr_url" {
   value = aws_ecr_repository.front.repository_url
 }

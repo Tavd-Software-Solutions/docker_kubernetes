@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     - name: Log in to ECR
-      command: "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 751212661018.dkr.ecr.us-east-1.amazonaws.com/front"
+      command: "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 751212661018.dkr.ecr.us-east-1.amazonaws.com"
     - name: Pull Docker image from ECR
       command: "docker pull 751212661018.dkr.ecr.us-east-1.amazonaws.com/front:latest"
     - name: Run Docker container
