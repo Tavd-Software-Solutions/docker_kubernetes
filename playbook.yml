@@ -1,6 +1,6 @@
 ---
 - name: Deploy App
-  hosts: localhost
+  hosts: all
   gather_facts: false
   tasks:
     - name: Log in to ECR
