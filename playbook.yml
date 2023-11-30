@@ -1,6 +1,6 @@
 ---
 - name: Deploy App
-  hosts: all
+  hosts: localhost
   gather_facts: false
   tasks:
     - name: Log in to ECR
@@ -12,5 +12,7 @@
         name: my-app-container
         image: "751212661018.dkr.ecr.us-east-1.amazonaws.com/front:latest"
         state: started
+        ports:
+          - "3000:3000"
         restart_policy: always
         network_mode: host
