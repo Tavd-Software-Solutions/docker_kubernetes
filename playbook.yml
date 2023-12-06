@@ -3,16 +3,22 @@
   hosts: all
   gather_facts: false
   tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
     - name: Log in to ECR
-      command: "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 751212661018.dkr.ecr.us-east-1.amazonaws.com"
-    - name: Pull Docker image from ECR
-      command: "docker pull 751212661018.dkr.ecr.us-east-1.amazonaws.com/front:latest"
+      command: "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 054507659414.dkr.ecr.us-east-1.amazonaws.com"
+
+    - name: Pull Docker image
+      docker:
+        pull:
+          image: "054507659414.dkr.ecr.us-east-1.amazonaws.com/front:latest"
+
     - name: Run Docker container
-      docker_container:
-        name: my-app-container
-        image: "751212661018.dkr.ecr.us-east-1.amazonaws.com/front:latest"
-        state: started
-        ports:
-          - "3000:3000"
-        restart_policy: always
-        network_mode: host
+      docker:
+        run:
+          image: "054507659414.dkr.ecr.us-east-1.amazonaws.com/front:latest"
+          ports:
+            - "3000:3000"
