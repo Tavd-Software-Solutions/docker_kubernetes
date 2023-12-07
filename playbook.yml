@@ -1,24 +1,26 @@
 ---
 - name: Deploy App
-  hosts: all
-  gather_facts: false
+  hosts: ec2_instance
+  become: true
   tasks:
     - name: Install Docker
       apt:
         name: docker.io
-        state: present
-
-    - name: Log in to ECR
-      command: "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 054507659414.dkr.ecr.us-east-1.amazonaws.com"
-
+        state: latest
+        update_cache: yes
+    - name: Inicia o Docker
+      service:
+        name: docker
+        state: started
+    - name: Login no ECR
+      shell: "$(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 054507659414.dkr.ecr.us-east-1.amazonaws.com)"
     - name: Pull Docker image
-      docker:
-        pull:
-          image: "054507659414.dkr.ecr.us-east-1.amazonaws.com/front:latest"
-
+      docker_image:
+        name: "054507659414.dkr.ecr.us-east-1.amazonaws.com/front:latest"
+        source: pull
     - name: Run Docker container
-      docker:
-        run:
-          image: "054507659414.dkr.ecr.us-east-1.amazonaws.com/front:latest"
-          ports:
-            - "3000:3000"
+      docker_container:
+        name: react_frontend
+        image: "054507659414.dkr.ecr.us-east-1.amazonaws.com/front:latest"
+        ports:
+          - "80:80"
