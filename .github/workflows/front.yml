@@ -120,6 +120,7 @@ jobs:
           cat inventario
           ls
           chmod 600 ./labsuser.pem
+          ansible -i inventario -m ping all
           ansible-playbook -i inventario playbook.yml
         shell: bash
 
