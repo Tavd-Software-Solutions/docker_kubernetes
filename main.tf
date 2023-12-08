@@ -2,6 +2,26 @@ provider "aws" {
   region = "us-east-1"
 }
 
+resource "aws_vpc" "eks_vpc" {
+  cidr_block           = var.vpc_block
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+  tags = {
+    Name = var.vpc_name
+  }
+}
+
+resource "aws_subnet" "eks_subnet1" {
+  vpc_id                  = aws_vpc.eks_vpc.id
+  cidr_block              = var.vpc_subnet1_block
+  availability_zone       = "us-east-1a"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = var.vpc_name
+  }
+}
+
 resource "aws_instance" "ec2_instance" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t3.medium"
@@ -18,7 +38,7 @@ resource "aws_instance" "ec2_instance" {
   }
 
   vpc_security_group_ids = [aws_security_group.ua-sg.id]
-  subnet_id = "subnet-0523f004cccb21f09"
+  subnet_id = aws_subnet.eks_subnet1.id
 }
 
 output "public_ip" {
@@ -28,7 +48,7 @@ output "public_ip" {
 resource "aws_security_group" "ua-sg" {
   name        = "ua-sg"
   description = "Security group for EC2 instance"
-  vpc_id = "vpc-0567388655fb4952d"
+  vpc_id = aws_vpc.eks_vpc.id
 
   ingress {
     from_port   = 22

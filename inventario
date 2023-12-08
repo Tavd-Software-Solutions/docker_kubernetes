@@ -1,2 +1,2 @@
-[ec2_instance]
-44.202.212.42 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=ua-lab.pem
+[avt]
+ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/terraform/avt-key.pem

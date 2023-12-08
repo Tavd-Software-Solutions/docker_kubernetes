@@ -9,37 +9,6 @@ on:
       - terraform
 
 jobs:
-  terraform:
-    runs-on: ubuntu-latest
-    outputs:
-      id: terraform
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform Init
-        run: terraform init
-        working-directory: terraform
-
-      - name: Terraform Validate
-        run: terraform validate
-        working-directory: terraform
-
-      - name: Terraform Plan
-        id: terraform_plan
-        run: terraform plan -out=tfplan
-        working-directory: terraform
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
-        working-directory: terraform
-
-      # - name: Set outputs
-      #   run: echo "ECR_URL=$(terraform output -raw ecr_url)" | tee -a $GITHUB_ENV
-
   build:
     needs: terraform
     runs-on: ubuntu-latest
@@ -103,16 +72,65 @@ jobs:
         run: |
           docker push ${{ secrets.AWS_REGISTRY }}:latest
 
-      - name: Ansible
-        run: ansible-playbook playbook.yml
-
-  destroy:
-    needs: terraform
+  terraform:
     runs-on: ubuntu-latest
-    if: failure() # Executar apenas se a etapa deploy falhar
+    needs: build
     steps:
-      - name: Set up Terraform for Destroy
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+      - name: Setup SSH
+        working-directory: ./
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/id_rsa.pem
+          chmod 600 ~/.ssh/id_rsa.pem
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: ./
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+        working-directory: ./
+
+      - name: Get Terraform Output
+        id: terraform_output
+        run: |
+          INSTANCE_IP=$(terraform output -raw public_ip)
+          echo "::set-output name=instance_ip::$INSTANCE_IP"
+          echo "[avt]" > inventario
+          echo "$INSTANCE_IP ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa.pem" >> inventario
+          ansible-playbook -i inventario playbook.yml
+        shell: bash
+
+      # - name: Set outputs
+      #   run: echo "ECR_URL=$(terraform output -raw ecr_url)" | tee -a $GITHUB_ENV
+
+  # destroy:
+  #   needs: terraform
+  #   runs-on: ubuntu-latest
+  #   if: failure() # Executar apenas se a etapa deploy falhar
+  #   steps:
+  #     - name: Set up Terraform for Destroy
+  #       uses: hashicorp/setup-terraform@v1
+
+  #     - name: Terraform Destroy
+  #       run: terraform destroy -auto-approve
