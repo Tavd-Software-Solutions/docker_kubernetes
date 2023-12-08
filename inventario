@@ -1,2 +1,2 @@
 [avt]
-52.87.194.246 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=ua-lab.pem
+ansible_ssh_user=ubuntu ansible_ssh_private_key_file=ua-lab.pem
