@@ -28,7 +28,7 @@ resource "aws_subnet" "eks_subnet1" {
 resource "aws_instance" "ec2_instance" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t3.medium"
-  key_name      = "ua-lab"
+  key_name      = data.aws_key_pair.example.key_name
   iam_instance_profile = "LabInstanceProfile"
 
   user_data = <<-EOF
@@ -39,6 +39,11 @@ resource "aws_instance" "ec2_instance" {
   tags = {
     Name = "EC2-Instance"
   }
+}
+
+data "aws_key_pair" "example" {
+  key_name           = "vockey"
+  include_public_key = true
 }
 
 output "public_ip" {
