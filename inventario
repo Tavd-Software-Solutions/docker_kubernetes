@@ -1,2 +1,2 @@
 [avt]
-ec2-54-144-11-219.compute-1.amazonaws.com ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/.ssh/labuser.pem
+ec2-54-158-31-109.compute-1.amazonaws.com ansible_ssh_user=ubuntu ansible_ssh_private_key_file=labuser.pem
