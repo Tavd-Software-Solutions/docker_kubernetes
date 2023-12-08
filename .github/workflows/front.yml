@@ -98,17 +98,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install ansible
 
-      - name: Terraform Init
-        run: terraform init
-        working-directory: ./
+      # - name: Terraform Init
+      #   run: terraform init
+      #   working-directory: ./
 
-      - name: Terraform Validate
-        run: terraform validate
-        working-directory: ./
+      # - name: Terraform Validate
+      #   run: terraform validate
+      #   working-directory: ./
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-        working-directory: ./
+      # - name: Terraform Apply
+      #   run: terraform apply -auto-approve
+      #   working-directory: ./
 
       - name: Get Terraform Output
         id: terraform_output
@@ -118,6 +118,7 @@ jobs:
           # echo "[avt]" > inventario
           # echo "$INSTANCE_IP ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa.pem" >> inventario
           cat inventario
+          chmod 600 labuser.pem
           ansible-playbook -i inventario playbook.yml
         shell: bash
 
